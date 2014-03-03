@@ -5,16 +5,24 @@ import android.app.Activity;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+import java.net.*;
+import java.io.*;
 
+public class MainActivity extends Activity {
+	Socket sock;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		//Called at the very beginning
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		TextView text = (TextView) findViewById(R.id.textView2);
-		text.setText("Yo");
+		
+		sock = new Socket();
+		
+		new Thread(new ClientConnect(sock)).start();
+
+		new Thread(new WatchHamster(this, sock)).start();
 	}
 	
 	@Override
@@ -28,6 +36,13 @@ public class MainActivity extends Activity {
 		//Called after onStart, and also after onPause when the user returns to it
 		super.onResume();
 	}
+	
+	public void output(String s){
+		TextView text = (TextView) findViewById(R.id.textView2);
+		text.setText(s);
+	}
+	
+	
 	
 	@Override
 	protected void onPause(){
@@ -51,6 +66,11 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onDestroy(){
 		//Exit app
+		try {
+			sock.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		super.onDestroy();
 	}
 }

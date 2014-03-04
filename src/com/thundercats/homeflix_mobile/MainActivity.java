@@ -9,7 +9,7 @@ import java.net.*;
 import java.io.*;
 
 public class MainActivity extends Activity {
-	Socket sock;
+	SocketHandle sockHandle = new SocketHandle();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +18,11 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		sock = new Socket();
+		sockHandle.sock = new Socket();
 		
-		new Thread(new ClientConnect(sock)).start();
+		new Thread(new ClientConnect(sockHandle)).start();
 
-		new Thread(new WatchHamster(this, sock)).start();
+		new Thread(new WatchHamster(this, sockHandle)).start();
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 	protected void onDestroy(){
 		//Exit app
 		try {
-			sock.close();
+			sockHandle.sock.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

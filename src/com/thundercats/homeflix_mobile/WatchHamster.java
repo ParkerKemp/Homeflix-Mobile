@@ -1,18 +1,13 @@
 package com.thundercats.homeflix_mobile;
 
-import java.net.*;
-
-import android.app.Activity;
-import android.widget.TextView;
-
 public class WatchHamster implements Runnable {
 	
-	private Socket sock;
+	private SocketHandle sockHandle;
 	private BoolEvent boolSwitch = new BoolEvent();
 	private MainActivity mainActivity;
 	
-	public WatchHamster(MainActivity mainActivity, Socket s){
-		sock = s;
+	public WatchHamster(MainActivity mainActivity, SocketHandle s){
+		sockHandle = s;
 		this.mainActivity = mainActivity;
 	}
 	
@@ -22,14 +17,25 @@ public class WatchHamster implements Runnable {
 		mainActivity.output(text);
 		
 		while(true){
-			boolSwitch.update(sock.isConnected());
+			boolSwitch.update(sockHandle.sock.isConnected());
 			if(boolSwitch.switchOn())
 				text = "Connected to server.";
 			else if(boolSwitch.switchOff())
 				text = "Not Connected...";
 			else
 				continue;
-			mainActivity.output(text);
+			output(text);
 		}
+	}
+	
+	public void output(final String s){
+		
+		//All changes to the UI must be run on the thread that created it (the main thread, I assume)
+		mainActivity.runOnUiThread(new Runnable() {
+		     @Override
+		     public void run() {
+		    	 mainActivity.output(s);
+		    }
+		});
 	}
 }

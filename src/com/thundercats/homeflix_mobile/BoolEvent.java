@@ -1,6 +1,7 @@
 package com.thundercats.homeflix_mobile;
 
 public class BoolEvent {
+	//Deprecated (that was pretty fast, eh?)
 	
 	private boolean bool, last, init = true;
 	

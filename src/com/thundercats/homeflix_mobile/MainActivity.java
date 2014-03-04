@@ -20,8 +20,11 @@ public class MainActivity extends Activity {
 		
 		sockHandle.sock = new Socket();
 		
+		//Start thread that connects to server
 		new Thread(new ClientConnect(sockHandle)).start();
 
+		//Start thread that handles general loop-ey stuff.
+		//If Homeflix were a game, this is the game loop
 		new Thread(new WatchHamster(this, sockHandle)).start();
 	}
 	

@@ -3,7 +3,6 @@ package com.thundercats.homeflix_mobile;
 public class WatchHamster implements Runnable {
 	
 	private SocketHandle sockHandle;
-	private BoolEvent boolSwitch = new BoolEvent();
 	private MainActivity mainActivity;
 	
 	public WatchHamster(MainActivity mainActivity, SocketHandle s){
@@ -13,19 +12,16 @@ public class WatchHamster implements Runnable {
 	
 	@Override
 	public void run(){
-		String text = "Not Connected...";
-		mainActivity.output(text);
-		
 		while(true){
-			boolSwitch.update(sockHandle.sock.isConnected());
-			if(boolSwitch.switchOn())
-				text = "Connected to server.";
-			else if(boolSwitch.switchOff())
-				text = "Not Connected...";
-			else
-				continue;
-			output(text);
+			checkConnection();
 		}
+	}
+	
+	public void checkConnection(){
+		if(sockHandle.sock.isConnected())
+			output("Connected to server! Downloading virus...");
+		else
+			output("Connecting...");
 	}
 	
 	public void output(final String s){

@@ -18,31 +18,14 @@ public class ClientConnect implements Runnable {
 	
 	@Override
 	public void run(){
-		SocketAddress serverAddress = new InetSocketAddress(Host, Port);
-		
-		while(!
-				establishConnection(serverAddress)
-				
-				);	//Block until establishConnection() returns true
-		//System.out.println("Connected");
-				//else
-					System.out.println("Nope");
-		
+		while(!establishConnection())
+			;	//Block until establishConnection() returns true
 	}
 	
-	public boolean establishConnection(SocketAddress serverAddress){
+	public boolean establishConnection(){
+		//Attempt to establish a connection to the server, return true on success
 		try{
-			
 			sockHandle.sock = new Socket(InetAddress.getByName(Host),Port);
-			//sock.connect(serverAddress, 1000);
-			System.out.println("1");
-			//sock.connect(serverAddress, 1000);
-			System.out.println("2");
-			//sock.connect(serverAddress, 1000);
-			System.out.println("3");
-			
-			//if(!sock.isConnected())
-			//	sock.close();
 		}
 		catch (UnknownHostException e1) {
 			e1.printStackTrace();

@@ -3,29 +3,37 @@ package com.thundercats.homeflix_mobile;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import java.net.*;
-import java.io.*;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
+	Homeflix app;
+	TextView text;
+	EditText editText;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		//Called at the very beginning
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		app = (Homeflix)getApplication();
+		app.mainActivity = this;
 		
-		sockHandle.sock = new Socket();
-		
-		//Start thread that connects to server
-		new Thread(new ClientConnect(sockHandle)).start();
-
-		//Start thread that handles general loop-ey stuff.
-		//If Homeflix were a game, this is the game loop
-		new Thread(new WatchHamster(this, sockHandle)).start();
+		text = (TextView) findViewById(R.id.textView2);
+		editText = (EditText) findViewById(R.id.editText1);
+		TextView.OnEditorActionListener exampleListener = new TextView.OnEditorActionListener(){
+			@Override
+			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
+				   if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) { 
+					   System.out.println(exampleView.getText());
+				   }
+				   return true;
+				}
+		};
+		editText.setOnEditorActionListener(exampleListener);
 	}
 	
 	@Override
@@ -41,10 +49,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void output(String s){
-		TextView text = (TextView) findViewById(R.id.textView2);
 		text.setText(s);
 	}
-	
 	
 	
 	@Override
@@ -69,11 +75,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onDestroy(){
 		//Exit app
-		try {
-			sockHandle.sock.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		super.onDestroy();
 	}
 }

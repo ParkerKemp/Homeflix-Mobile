@@ -1,13 +1,15 @@
 package com.thundercats.homeflix_mobile;
 
+import android.app.Application;
+
 public class WatchHamster implements Runnable {
 	
 	private SocketHandle sockHandle;
-	private MainActivity mainActivity;
+	private Homeflix app;
 	
-	public WatchHamster(MainActivity mainActivity, SocketHandle s){
+	public WatchHamster(Homeflix app,SocketHandle s){
 		sockHandle = s;
-		this.mainActivity = mainActivity;
+		this.app = app;
 	}
 	
 	@Override
@@ -18,6 +20,12 @@ public class WatchHamster implements Runnable {
 	}
 	
 	public void checkConnection(){
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(sockHandle.sock.isConnected())
 			output("Connected to server! Downloading virus...");
 		else
@@ -25,12 +33,13 @@ public class WatchHamster implements Runnable {
 	}
 	
 	public void output(final String s){
-		
+		if(app.mainActivity == null)
+			return;
 		//All changes to the UI must be run on the thread that created it (the main thread, I assume)
-		mainActivity.runOnUiThread(new Runnable() {
+		app.mainActivity.runOnUiThread(new Runnable() {
 		     @Override
 		     public void run() {
-		    	 mainActivity.output(s);
+		    	 app.mainActivity.output(s);
 		    }
 		});
 	}

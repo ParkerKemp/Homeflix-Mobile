@@ -11,8 +11,8 @@ import android.view.inputmethod.EditorInfo;
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
 	Homeflix app;
-	TextView text;
-	EditText editText;
+	TextView text, text2;
+	EditText ipInput, messageInput;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +23,35 @@ public class MainActivity extends Activity {
 		app.mainActivity = this;
 		
 		text = (TextView) findViewById(R.id.textView2);
-		editText = (EditText) findViewById(R.id.editText1);
-		TextView.OnEditorActionListener exampleListener = new TextView.OnEditorActionListener(){
+		text2 = (TextView) findViewById(R.id.textView4);
+		
+		ipInput = (EditText) findViewById(R.id.editText1);
+		TextView.OnEditorActionListener ipListener = new TextView.OnEditorActionListener(){
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
 				   if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) { 
+					   app.connectToIP(exampleView.getText().toString());
 					   System.out.println(exampleView.getText());
 				   }
 				   return true;
 				}
 		};
-		editText.setOnEditorActionListener(exampleListener);
+		ipInput.setOnEditorActionListener(ipListener);
+		
+		messageInput = (EditText) findViewById(R.id.editText2);
+		TextView.OnEditorActionListener messageListener = new TextView.OnEditorActionListener(){
+			@Override
+			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
+				   if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) { 
+					   app.sendData(exampleView.getText().toString());
+					   System.out.println(exampleView.getText());
+				   }
+				   return true;
+				}
+		};
+		messageInput.setOnEditorActionListener(messageListener);
+		
+		
 	}
 	
 	@Override
@@ -50,6 +68,10 @@ public class MainActivity extends Activity {
 	
 	public void output(String s){
 		text.setText(s);
+	}
+	
+	public void output2(String s){
+		text2.setText(s);
 	}
 	
 	

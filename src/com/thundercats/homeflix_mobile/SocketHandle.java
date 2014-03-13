@@ -1,5 +1,7 @@
 package com.thundercats.homeflix_mobile;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class SocketHandle {
@@ -8,4 +10,7 @@ public class SocketHandle {
 	//reference passed from the main thread.
 	
 	public Socket sock;
+	public String ip;
+	public BufferedReader bufferIn;
+	public PrintWriter bufferOut;
 }

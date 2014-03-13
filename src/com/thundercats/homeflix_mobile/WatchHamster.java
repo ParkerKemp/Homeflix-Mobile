@@ -16,6 +16,7 @@ public class WatchHamster implements Runnable {
 	public void run(){
 		while(true){
 			checkConnection();
+			readFromSocket();
 		}
 	}
 	
@@ -30,6 +31,13 @@ public class WatchHamster implements Runnable {
 			output("Connected to server! Downloading virus...");
 		else
 			output("Connecting...");
+	}
+	
+	public void readFromSocket(){
+		if(!sockHandle.sock.isConnected())
+			return;
+		
+		
 	}
 	
 	public void output(final String s){

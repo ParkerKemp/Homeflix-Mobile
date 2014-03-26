@@ -1,6 +1,6 @@
 package com.thundercats.homeflix_mobile;
 
-import android.app.Application;
+//import android.app.Application;
 
 public class WatchHamster implements Runnable {
 	

@@ -1,18 +1,24 @@
 package com.thundercats.homeflix_mobile;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.view.View.OnClickListener;
 
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
 	Homeflix app;
 	TextView text, text2;
 	EditText ipInput, messageInput;
+	Button streamButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,8 @@ public class MainActivity extends Activity {
 		
 		text = (TextView) findViewById(R.id.textView2);
 		text2 = (TextView) findViewById(R.id.textView4);
+		
+		streamButton = (Button)findViewById(R.id.button1);
 		
 		ipInput = (EditText) findViewById(R.id.editText1);
 		TextView.OnEditorActionListener ipListener = new TextView.OnEditorActionListener(){
@@ -51,7 +59,14 @@ public class MainActivity extends Activity {
 		};
 		messageInput.setOnEditorActionListener(messageListener);
 		
-		
+		streamButton.setOnClickListener(new OnClickListener(){
+			public void onClick(View v){
+				String mediaURL = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
+                startActivity(intent); 
+            	
+			}
+		});
 	}
 	
 	@Override

@@ -29,7 +29,11 @@ public class Homeflix extends Application{
 	
 	public void sendData(String s){
 		//Write code to send a string across the socket
+		//try{
 		sockHandle.bufferOut.println(s);
+		//} catch(IOException e){
+		
+		//}
 	}
 	
 	public void connectToIP(String ip){

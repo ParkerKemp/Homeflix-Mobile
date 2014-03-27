@@ -51,8 +51,11 @@ public class MainActivity extends Activity {
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
 				   if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) { 
-					   app.sendData(exampleView.getText().toString());
-					   System.out.println(exampleView.getText());
+					   String str = exampleView.getText().toString();
+					   app.sendData(str);
+					   exampleView.setText("");
+					   
+					   System.out.println(str);
 				   }
 				   return true;
 				}

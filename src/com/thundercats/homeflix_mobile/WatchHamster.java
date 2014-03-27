@@ -28,7 +28,7 @@ public class WatchHamster implements Runnable {
 			e.printStackTrace();
 		}
 		if(sockHandle.sock.isConnected())
-			output("Connected to server! Downloading virus...");
+			output("Connected to server!");
 		else
 			output("Connecting...");
 	}
@@ -36,8 +36,6 @@ public class WatchHamster implements Runnable {
 	public void readFromSocket(){
 		if(!sockHandle.sock.isConnected())
 			return;
-		
-		
 	}
 	
 	public void output(final String s){

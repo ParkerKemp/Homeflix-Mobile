@@ -28,6 +28,8 @@
 
     <EditText
         android:id="@+id/editText1"
+        android:imeOptions="actionSend"
+        android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
@@ -37,6 +39,8 @@
 
     <EditText
         android:id="@+id/editText2"
+        android:imeOptions="actionSend"
+        android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText1"

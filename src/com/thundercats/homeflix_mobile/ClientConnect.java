@@ -8,7 +8,7 @@ import java.net.*;
 
 public class ClientConnect implements Runnable {
 	
-	private final int Port = 6000;	//Should match the port Homeflix Base is listening on
+	private final int Port = 2463;	//Should match the port Homeflix Base is listening on
 	
 	Homeflix app;
 	SocketHandle sockHandle;
@@ -22,7 +22,7 @@ public class ClientConnect implements Runnable {
 	@Override
 	public void run(){
 		markTime = System.currentTimeMillis();
-		while(!establishConnection() && currentTime - markTime < 5000 && app.connectHandle == this)
+		while(!establishConnection() && currentTime - markTime < 5000)
 			currentTime = System.currentTimeMillis();	//Block until establishConnection() returns true
 		System.out.println("ClientConnect thread done.");
 	}

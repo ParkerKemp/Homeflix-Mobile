@@ -37,9 +37,9 @@ public class MainActivity extends Activity {
 		TextView.OnEditorActionListener ipListener = new TextView.OnEditorActionListener(){
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
-				   if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) { 
+				   if (actionId == EditorInfo.IME_ACTION_SEND){// && event.getAction() == KeyEvent.ACTION_DOWN) { 
 					   app.connectToIP(exampleView.getText().toString());
-					   System.out.println(exampleView.getText());
+					   //System.out.println(exampleView.getText());
 				   }
 				   return true;
 				}
@@ -50,12 +50,12 @@ public class MainActivity extends Activity {
 		TextView.OnEditorActionListener messageListener = new TextView.OnEditorActionListener(){
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
-				   if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) { 
+				   if (actionId == EditorInfo.IME_ACTION_SEND){// && event.getAction() == KeyEvent.ACTION_DOWN) { 
 					   String str = exampleView.getText().toString();
 					   app.sendData(str);
 					   exampleView.setText("");
 					   
-					   System.out.println(str);
+					   //System.out.println(str);
 				   }
 				   return true;
 				}
@@ -64,9 +64,11 @@ public class MainActivity extends Activity {
 		
 		streamButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				String mediaURL = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";
+				//String mediaURL = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";
+				String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/demo";
+				System.out.println(mediaURL);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
-                startActivity(intent); 
+                startActivity(intent);
             	
 			}
 		});

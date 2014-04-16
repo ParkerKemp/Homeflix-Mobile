@@ -28,9 +28,9 @@ public class WatchHamster implements Runnable {
 			e.printStackTrace();
 		}
 		if(sockHandle.sock.isConnected())
-			output("Connected to server!");
+			;//output("Connected to server!");
 		else
-			output("Connecting...");
+			;//output("Connecting...");
 	}
 	
 	public void readFromSocket(){

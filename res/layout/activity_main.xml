@@ -10,6 +10,7 @@
     android:background="@color/red"
     tools:context=".MainActivity" >
 
+
     <EditText
         android:id="@+id/editText1"
         android:layout_width="fill_parent"
@@ -27,10 +28,9 @@
         android:hint="@string/serverDebug" />
     
     <ListView
-    	android:id="@+id/listview"
+    	android:id="@+id/vidList"
     	android:layout_width="fill_parent"
-    	android:layout_height="0dp"
-    	android:layout_weight="1"
+    	android:layout_height="fill_parent"
     	android:layout_marginTop="10dp"
     	android:gravity="top"
     	android:background="@drawable/back" /> 
@@ -43,5 +43,6 @@
         android:layout_gravity="right"
         android:background="@color/light_gray"
         android:text="@string/testStream" />
+
 
 </LinearLayout>

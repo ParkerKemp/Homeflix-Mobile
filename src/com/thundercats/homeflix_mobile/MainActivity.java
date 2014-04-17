@@ -4,6 +4,11 @@ import java.util.ArrayList;
 //import java.util.HashMap;
 //import java.util.List;
 
+
+
+
+
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -26,11 +31,15 @@ public class MainActivity extends Activity {
 	TextView text, text2;
 	EditText ipInput, messageInput;
 	Button streamButton;
+	ListView myVidList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		app = (Homeflix)getApplication();
+		app.mainActivity = this;
 		
 		//Splash screen partial implementation, incomplete
 		/*
@@ -45,28 +54,29 @@ public class MainActivity extends Activity {
         }, 10);
        */
 		
-		final ListView listview = (ListView) findViewById(R.id.listview);
+		//Connect to vidList in activity_main.xml
+		myVidList = (ListView) findViewById(R.id.vidList);
 		
-	    String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-	        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-	        "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-	        "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-	        "Android", "iPhone", "WindowsMobile" };
+		//dummy code to demonstrate scrollable
+	    String[] values = new String[] { "My video.mp4", "Your video.mp4", "Bob's video.avi", 
+	    		"NSFW vid.flv", "How to do thing.avi", "How not to do thing.mp4",
+	    		"glow in the dark dog.mov", "Gameplay.flv", "test.avi",
+	    		"My Little Pony Ep1.avi", "My Little Pony Ep2.avi", "My Little Pony Ep6.avi",
+	    		"My Little Pony Ep10.avi", "Derpy Hooves.avi", "Parker eats a Taco.mp4",
+	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif"};
 
-	    final ArrayList<String> list = new ArrayList<String>();
+	    ArrayList<String> list = new ArrayList<String>();
 	    for (int i = 0; i < values.length; ++i) {
 	      list.add(values[i]);
 	    }
 	    
-	    //Why won't this work this is a butt -RD
-	    /*
-	    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-	    listview.setAdapter(adapter);
-	    */
-		
-		setContentView(R.layout.activity_main);
-		app = (Homeflix)getApplication();
-		app.mainActivity = this;
+	    ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+	    
+	    //Connect software list with user interface
+	    myVidList.setAdapter(adapter);
+	    
+	    //namesAA = new ArrayAdapter<String> ( this, android.R.layout.simple_list_item_1, names );
+	    //namesListView.setAdapter(namesAA);
 		
 		//text = (TextView) findViewById(R.id.textView2);
 		//text2 = (TextView) findViewById(R.id.textView4);

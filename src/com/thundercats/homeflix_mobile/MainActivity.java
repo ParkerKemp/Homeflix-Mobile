@@ -74,9 +74,6 @@ public class MainActivity extends Activity {
 	    
 	    //Connect software list with user interface
 	    myVidList.setAdapter(adapter);
-	    
-	    //namesAA = new ArrayAdapter<String> ( this, android.R.layout.simple_list_item_1, names );
-	    //namesListView.setAdapter(namesAA);
 		
 		//text = (TextView) findViewById(R.id.textView2);
 		//text2 = (TextView) findViewById(R.id.textView4);

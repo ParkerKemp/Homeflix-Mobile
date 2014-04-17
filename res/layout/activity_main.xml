@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,8 +6,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="@color/red"
     tools:context=".MainActivity" >
 
+<<<<<<< HEAD
 	<TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -25,45 +28,46 @@
         android:layout_alignBottom="@+id/editText1"
         android:layout_toLeftOf="@+id/editText2"
         android:text="IP:" />
+=======
+>>>>>>> 3c07946a0341052d64c17d871f73eb81ae9dd970
 
     <EditText
         android:id="@+id/editText1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/back"
         android:imeOptions="actionSend"
         android:inputType="text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:ems="10" />
+        android:hint="@string/IPprompt" />
 
     <EditText
         android:id="@+id/editText2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/back"
         android:imeOptions="actionSend"
         android:inputType="text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
-        android:ems="10" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:text="TextView" />
+        android:hint="@string/serverDebug" />
+    
+    <ListView
+    	android:id="@+id/vidList"
+    	android:layout_width="fill_parent"
+    	android:layout_height="0dp"
+    	android:layout_weight="1"
+    	android:layout_marginTop="10dp"
+    	android:gravity="top"
+    	android:background="@drawable/back" /> 
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView4"
-        android:layout_marginTop="18dp"
-        android:layout_toLeftOf="@+id/textView2"
-        android:text="Open Stream" />
+        android:layout_marginTop="15dp"
+        android:layout_gravity="right"
+        android:background="@color/light_gray"
+        android:text="@string/testStream" />
 
-</RelativeLayout>
+
+</LinearLayout>

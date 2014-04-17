@@ -1,14 +1,29 @@
 package com.thundercats.homeflix_mobile;
 
+import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.List;
+
+
+
+
+
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+//import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+<<<<<<< HEAD
 import android.widget.MediaController;
+=======
+import android.widget.ListView;
+>>>>>>> 3c07946a0341052d64c17d871f73eb81ae9dd970
 import android.widget.TextView;
 import android.widget.VideoView;
 import android.view.KeyEvent;
@@ -21,6 +36,7 @@ public class MainActivity extends Activity {
 	TextView text, text2;
 	EditText ipInput, messageInput;
 	Button streamButton;
+	ListView myVidList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +46,42 @@ public class MainActivity extends Activity {
 		app = (Homeflix)getApplication();
 		app.mainActivity = this;
 		
-		text = (TextView) findViewById(R.id.textView2);
-		text2 = (TextView) findViewById(R.id.textView4);
+		//Splash screen partial implementation, incomplete
+		/*
+		setContentView(R.layout.splashscreen);
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                Intent mainIntent = new Intent(MainActivity.this,Menu.class);
+                MainActivity.this.startActivity(mainIntent);
+                MainActivity.this.finish();
+            }
+        }, 10);
+       */
+		
+		//Connect to vidList in activity_main.xml
+		myVidList = (ListView) findViewById(R.id.vidList);
+		
+		//dummy code to demonstrate scrollable
+	    String[] values = new String[] { "My video.mp4", "Your video.mp4", "Bob's video.avi", 
+	    		"NSFW vid.flv", "How to do thing.avi", "How not to do thing.mp4",
+	    		"glow in the dark dog.mov", "Gameplay.flv", "test.avi",
+	    		"My Little Pony Ep1.avi", "My Little Pony Ep2.avi", "My Little Pony Ep6.avi",
+	    		"My Little Pony Ep10.avi", "Derpy Hooves.avi", "Parker eats a Taco.mp4",
+	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif"};
+
+	    ArrayList<String> list = new ArrayList<String>();
+	    for (int i = 0; i < values.length; ++i) {
+	      list.add(values[i]);
+	    }
+	    
+	    ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+	    
+	    //Connect software list with user interface
+	    myVidList.setAdapter(adapter);
+		
+		//text = (TextView) findViewById(R.id.textView2);
+		//text2 = (TextView) findViewById(R.id.textView4);
 		
 		streamButton = (Button)findViewById(R.id.button1);
 		
@@ -75,6 +125,8 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
+	
+	
 	
 	@Override
 	protected void onStart(){
@@ -122,4 +174,17 @@ public class MainActivity extends Activity {
 		
 		super.onDestroy();
 	}
+	
+	//test code for implementing listview
+	/*
+	private class StableArrayAdapter extends ArrayAdapter<String> {
+		HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+		public StableArrayAdapter(Context context, int textViewResourceId, List<String> objects) {
+			super(context, textViewResourceId, objects);
+			for (int i = 0; i < objects.size(); ++i) {
+				mIdMap.put(objects.get(i), i);
+			}
+	    }
+	}
+	*/
 }

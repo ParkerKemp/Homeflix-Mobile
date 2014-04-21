@@ -29,7 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.view.View.OnClickListener;
+//import android.view.View.OnClickListener;
 
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
 	    		"glow in the dark dog.mov", "Gameplay.flv", "test.avi",
 	    		"My Little Pony Ep1.avi", "My Little Pony Ep2.avi", "My Little Pony Ep6.avi",
 	    		"My Little Pony Ep10.avi", "Derpy Hooves.avi", "Parker eats a Taco.mp4",
-	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif", "JenAcktivv iz dum.jpg"};
+	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif"};
 
 	    //Convert String[] to suitable format to feed to ArrayAdapter
 	    ArrayList<String> list = new ArrayList<String>();

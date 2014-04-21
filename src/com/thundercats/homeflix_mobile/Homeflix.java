@@ -31,6 +31,10 @@ public class Homeflix extends Application{
 	public void sendData(String s){
 		//Write code to send a string across the socket
 		//try{
+		if(sockHandle.sock == null)
+			return;
+		if(!sockHandle.sock.isConnected())
+			return;
 		sockHandle.bufferOut.println(sockHandle.ip + " " + s);
 		parseRequest(s);
 		//} catch(IOException e){

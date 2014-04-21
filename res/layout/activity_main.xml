@@ -10,27 +10,6 @@
     android:background="@color/red"
     tools:context=".MainActivity" >
 
-<<<<<<< HEAD
-	<TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
-        android:text="@string/hello_world" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editText1"
-        android:layout_alignBottom="@+id/editText1"
-        android:layout_toLeftOf="@+id/editText2"
-        android:text="IP:" />
-=======
->>>>>>> 3c07946a0341052d64c17d871f73eb81ae9dd970
-
     <EditText
         android:id="@+id/editText1"
         android:layout_width="fill_parent"
@@ -41,16 +20,6 @@
         android:inputType="text"
         android:hint="@string/IPprompt" />
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/back"
-        android:imeOptions="actionSend"
-        android:inputType="text"
-        android:hint="@string/serverDebug" />
-    
     <ListView
     	android:id="@+id/vidList"
     	android:layout_width="fill_parent"
@@ -59,15 +28,5 @@
     	android:layout_marginTop="10dp"
     	android:gravity="top"
     	android:background="@drawable/back" /> 
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="right"
-        android:background="@color/light_gray"
-        android:text="@string/testStream" />
-
 
 </LinearLayout>

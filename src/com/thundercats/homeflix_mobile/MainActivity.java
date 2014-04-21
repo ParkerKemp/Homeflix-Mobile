@@ -5,10 +5,6 @@ import java.util.ArrayList;
 //import java.util.List;
 
 
-
-
-
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -16,16 +12,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-<<<<<<< HEAD
-import android.widget.MediaController;
-=======
 import android.widget.ListView;
->>>>>>> 3c07946a0341052d64c17d871f73eb81ae9dd970
 import android.widget.TextView;
-import android.widget.VideoView;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.View.OnClickListener;
@@ -80,10 +72,22 @@ public class MainActivity extends Activity {
 	    //Connect software list with user interface
 	    myVidList.setAdapter(adapter);
 		
+	    myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
+	        @Override
+	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+	        	String filename = "test";
+	        	app.sendData("play " + filename);
+	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;
+				System.out.println(mediaURL);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
+                startActivity(intent);
+	        }
+	    });
+	    
 		//text = (TextView) findViewById(R.id.textView2);
 		//text2 = (TextView) findViewById(R.id.textView4);
 		
-		streamButton = (Button)findViewById(R.id.button1);
+		//streamButton = (Button)findViewById(R.id.button1);
 		
 		ipInput = (EditText) findViewById(R.id.editText1);
 		TextView.OnEditorActionListener ipListener = new TextView.OnEditorActionListener(){
@@ -98,7 +102,7 @@ public class MainActivity extends Activity {
 		};
 		ipInput.setOnEditorActionListener(ipListener);
 		
-		messageInput = (EditText) findViewById(R.id.editText2);
+		/*messageInput = (EditText) findViewById(R.id.editText2);
 		TextView.OnEditorActionListener messageListener = new TextView.OnEditorActionListener(){
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
@@ -112,9 +116,9 @@ public class MainActivity extends Activity {
 				   return true;
 				}
 		};
-		messageInput.setOnEditorActionListener(messageListener);
+		messageInput.setOnEditorActionListener(messageListener);*/
 		
-		streamButton.setOnClickListener(new OnClickListener(){
+		/*streamButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
 				//String mediaURL = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";
 				String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/demo";
@@ -123,7 +127,7 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             	
 			}
-		});
+		});*/
 	}
 	
 	

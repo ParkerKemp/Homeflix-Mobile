@@ -57,34 +57,16 @@ public class MainActivity extends Activity {
 		app = (Homeflix)getApplication();
 		app.mainActivity = this;
 		
-		//Splash screen partial implementation, incomplete
-		/*
-		setContentView(R.layout.splashscreen);
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                Intent mainIntent = new Intent(MainActivity.this,Menu.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
-            }
-        }, 10);
-       */
-		
 		//Connect to vidList in activity_main.xml
 		myVidList = (ListView) findViewById(R.id.vidList);
 		
-		//dummy code to demonstrate scrollable
-	    String[] values = new String[] { "My video.mp4", "Your video.mp4", "Bob's video.avi", 
-	    		"NSFW vid.flv", "How to do thing.avi", "How not to do thing.mp4",
-	    		"glow in the dark dog.mov", "Gameplay.flv", "test.avi",
-	    		"My Little Pony Ep1.avi", "My Little Pony Ep2.avi", "My Little Pony Ep6.avi",
-	    		"My Little Pony Ep10.avi", "Derpy Hooves.avi", "Parker eats a Taco.mp4",
-	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif"};
+		//dummy data to populate scroll list
+	    final String[] fileNames = new String[] { "Test1", "Test2", "Test3"};
 
 	    //Convert String[] to suitable format to feed to ArrayAdapter
 	    ArrayList<String> list = new ArrayList<String>();
-	    for (int i = 0; i < values.length; ++i) {
-	      list.add(values[i]);
+	    for (int i = 0; i < fileNames.length; ++i) {
+	      list.add(fileNames[i]);
 	    }
 	    
 	    //ArrayAdapter allow software memory to populate UI with values. adapter currently uses dummy data
@@ -93,14 +75,16 @@ public class MainActivity extends Activity {
 	    //Connect software list with user interface
 	    myVidList.setAdapter(adapter);
 		
+	    //Create interface effect: When file is tapped, play is initiated or resumed
 	    myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
 	        @Override
-	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
-	        	String filename = "test";
+	        public void onItemClick(AdapterView<?> a, View v, int position, long rowID) {
+	        	//String filename = "test";//debug: all selections play the same testfile
+	        	String filename = fileNames[position];//Identify the file name selected
 	        	app.sendData("play " + filename);
-	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;
-				System.out.println(mediaURL);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
+	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
+				System.out.println(mediaURL);//debug code, confirm correct formatting
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));//invoke native media player on new rtsp URL
                 startActivity(intent);
 	        }
 	    });

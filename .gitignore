@@ -1,3 +1,6 @@
 .classpath
 *.class
 *.apk
+*.dex
+*.ap_
+R.java

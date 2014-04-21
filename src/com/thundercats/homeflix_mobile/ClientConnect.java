@@ -1,3 +1,13 @@
+/*Homeflix-Mobile: ClientConnect
+ * 
+ * Homeflix project for WKU CS496
+ * Richie Davidson, Parker Kemp, Colin Page
+ * Spring Semester 2014
+ * 
+ * Establish connection between client (this mobile device) and server (User's home machine
+ * running Homeflix-Base).
+ */
+
 package com.thundercats.homeflix_mobile;
 
 import java.io.BufferedReader;

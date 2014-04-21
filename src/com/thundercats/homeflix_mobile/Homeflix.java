@@ -1,3 +1,12 @@
+/*Homeflix-Mobile: Homeflix
+ * 
+ * Homeflix project for WKU CS496
+ * Richie Davidson, Parker Kemp, Colin Page
+ * Spring Semester 2014
+ * 
+ * 
+ */
+
 package com.thundercats.homeflix_mobile;
 
 import java.net.Socket;

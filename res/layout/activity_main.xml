@@ -18,18 +18,8 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/back"
         android:imeOptions="actionSend"
-        android:inputType="text"
+        android:inputType="number"
         android:hint="@string/IPprompt" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/back"
-        android:imeOptions="actionSend"
-        android:inputType="text"
-        android:hint="@string/serverDebug" />
     
     <ListView
     	android:id="@+id/vidList"

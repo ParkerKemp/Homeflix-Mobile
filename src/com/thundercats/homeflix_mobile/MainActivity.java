@@ -1,3 +1,12 @@
+/*Homeflix-Mobile: MainActivity
+ * 
+ * Homeflix project for WKU CS496
+ * Richie Davidson, Parker Kemp, Colin Page
+ * Spring Semester 2014
+ * 
+ * Main Activity class for Homeflix-Mobile
+ */
+
 package com.thundercats.homeflix_mobile;
 
 import java.util.ArrayList;
@@ -28,10 +37,20 @@ import android.view.View.OnClickListener;
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
 	Homeflix app;
-	TextView text, text2;
-	EditText ipInput, messageInput;
-	Button streamButton;
-	ListView myVidList;
+	TextView text;
+	TextView text2;
+	
+	EditText ipInput;//Entry field for user to manually enter IP. Currently not the goal of the
+	//final design and will be altered/removed as project progresses
+	
+	EditText messageInput;//This EditText was used with the server echo test and has been deprecated
+	//Will be safely removed from code once all relevant testing is discontinued
+	
+	Button streamButton;//This button previously activated the sample stream offered by a public stie
+	//Will be safely removed from code once all relevant testing is discontinued
+	
+	ListView myVidList;//ListView container for user's available video files. Will be populated with
+	//info from Base.
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +82,15 @@ public class MainActivity extends Activity {
 	    		"glow in the dark dog.mov", "Gameplay.flv", "test.avi",
 	    		"My Little Pony Ep1.avi", "My Little Pony Ep2.avi", "My Little Pony Ep6.avi",
 	    		"My Little Pony Ep10.avi", "Derpy Hooves.avi", "Parker eats a Taco.mp4",
-	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif"};
+	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif", "JenAcktivv iz dum.jpg"};
 
+	    //Convert String[] to suitable format to feed to ArrayAdapter
 	    ArrayList<String> list = new ArrayList<String>();
 	    for (int i = 0; i < values.length; ++i) {
 	      list.add(values[i]);
 	    }
 	    
+	    //ArrayAdapter allow software memory to populate UI with values. adapter currently uses dummy data
 	    ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
 	    
 	    //Connect software list with user interface
@@ -80,19 +101,22 @@ public class MainActivity extends Activity {
 		
 		streamButton = (Button)findViewById(R.id.button1);
 		
+		//Current method of connection has user input IP of Base
 		ipInput = (EditText) findViewById(R.id.editText1);
 		TextView.OnEditorActionListener ipListener = new TextView.OnEditorActionListener(){
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
 				   if (actionId == EditorInfo.IME_ACTION_SEND){// && event.getAction() == KeyEvent.ACTION_DOWN) { 
 					   app.connectToIP(exampleView.getText().toString());
-					   //System.out.println(exampleView.getText());
+					   //System.out.println(exampleView.getText());//debug output
 				   }
 				   return true;
 				}
 		};
 		ipInput.setOnEditorActionListener(ipListener);
 		
+		//debug code for server echo
+		/*
 		messageInput = (EditText) findViewById(R.id.editText2);
 		TextView.OnEditorActionListener messageListener = new TextView.OnEditorActionListener(){
 			@Override
@@ -108,7 +132,9 @@ public class MainActivity extends Activity {
 				}
 		};
 		messageInput.setOnEditorActionListener(messageListener);
+		*/
 		
+		//StreamButton previously connected device to public sample stream, now connects to sample file on Base
 		streamButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
 				//String mediaURL = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";

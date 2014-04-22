@@ -36,6 +36,10 @@ public class MainActivity extends Activity {
 	Homeflix app;
 	TextView text;
 	TextView text2;
+	String[] fileNames;//names of playable files, sent from Base
+	int fileCount;//number of fileNames expected from Base
+	ArrayAdapter<String> adapter;
+	int j; //loop counter
 	
 	EditText ipInput;//Entry field for user to manually enter IP. Currently not the goal of the
 	//final design and will be altered/removed as project progresses
@@ -61,19 +65,22 @@ public class MainActivity extends Activity {
 		myVidList = (ListView) findViewById(R.id.vidList);
 		
 		//dummy data to populate scroll list
-	    final String[] fileNames = new String[] { "Test1", "Test2", "Test3"};
+	    //final String[] fileNames = new String[] { "Test1.MOV", "Test2.MOV", "Test3.MOV"};
+		//final String[] fileNames = new String[] {};
 
 	    //Convert String[] to suitable format to feed to ArrayAdapter
+		/*
 	    ArrayList<String> list = new ArrayList<String>();
 	    for (int i = 0; i < fileNames.length; ++i) {
 	      list.add(fileNames[i]);
 	    }
+	    */
 	    
 	    //ArrayAdapter allow software memory to populate UI with values. adapter currently uses dummy data
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+	    //adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
 	    
 	    //Connect software list with user interface
-	    myVidList.setAdapter(adapter);
+	    //myVidList.setAdapter(adapter);
 		
 	    //Create interface effect: When file is tapped, play is initiated or resumed
 	    myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -104,11 +111,12 @@ public class MainActivity extends Activity {
 					   //System.out.println(exampleView.getText());//debug output
 				   }
 				   return true;
-				}
+			}
+			
 		};
 		ipInput.setOnEditorActionListener(ipListener);
 		
-
+		
 		//debug code for server echo
 		/*
 		messageInput = (EditText) findViewById(R.id.editText2);
@@ -163,6 +171,48 @@ public class MainActivity extends Activity {
 		text2.setText(s);
 	}
 	
+	//Receieve the list of files from Base, send them to the ArrayAdapter
+	public void receiveData(String s){
+		//the first value should be an integer (only first value)
+		if (isInteger(s)){
+			//This is the number of file names to be received
+			fileCount = Integer.parseInt(s);
+			fileNames = new String[fileCount];
+			j = 0;
+		}
+		else
+		{
+			//store each file name in the string
+			fileNames[j] = s;
+			//then iterate
+			j++;
+		}
+		
+		//Once file names are all received
+		if (j == fileCount){
+			//Convert String[] to suitable format to feed to ArrayAdapter
+		    ArrayList<String> list = new ArrayList<String>();
+		    for (int i = 0; i < fileNames.length; ++i) {
+		      list.add(fileNames[i]);
+		    }
+		    
+		    //then set adapter
+		    adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+		    
+		    //and pass to UI
+		    myVidList.setAdapter(adapter);
+		}
+	}
+	
+	public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
 	
 	@Override
 	protected void onPause(){

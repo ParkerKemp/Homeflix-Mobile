@@ -28,15 +28,28 @@ public class ServerListener implements Runnable {
 		try{
 			while((line = sockHandle.bufferIn.readLine()) != null && !line.equals(".")){
 				System.out.println(line);
-				output(line);
+				//output(line);
+				receiveData(line);
 				//reply with the same message, adding some text
 				// out.println("Server received: " + line);
+				
 			}
 		}
 		catch (IOException e){
 			System.out.println("IOException on socket : " + e);
 			e.printStackTrace();
 		}
+	}
+	
+	public void receiveData(final String s){
+		if(app.mainActivity == null)
+			return;
+		app.mainActivity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				app.mainActivity.receiveData(s);
+			}
+		});
 	}
 	
 	public void output(final String s){

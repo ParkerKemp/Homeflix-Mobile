@@ -223,8 +223,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void parseResponse(String s){
-		if (s.startsWith("FILE")){
-			receiveData(s.substring(4));
+		if (s.startsWith("FILE ")){
+			receiveData(s.substring(5));
 		}
 		//if READY condition goes here
 	}

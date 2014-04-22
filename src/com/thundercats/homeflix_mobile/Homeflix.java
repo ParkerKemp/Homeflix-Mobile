@@ -37,18 +37,28 @@ public class Homeflix extends Application{
 		new Thread(new WatchHamster(this, sockHandle)).start();
 	}
 	
-	public void sendData(String s){
+	public void sendRequest(String requestType, String data){
 		//Write code to send a string across the socket
 		//try{
 		if(sockHandle.sock == null)
 			return;
 		if(!sockHandle.sock.isConnected())
 			return;
-		sockHandle.bufferOut.println(sockHandle.ip + " " + s);
-		parseRequest(s);
+		
+		sockHandle.bufferOut.println(requestType + " " + data);
+		//parseRequest(s);
 		//} catch(IOException e){
 		
 		//}
+	}
+	
+	public void openStream(String filename){
+		//String filename = tokens[1];
+    	String mediaURL = "rtsp://" + sockHandle.ip + ":2464/" + filename;
+		System.out.println(mediaURL);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
 	}
 	
 	public boolean parseRequest(String line){

@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
 	    myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
 	        @Override
 	        public void onItemClick(AdapterView<?> a, View v, int position, long rowID) {
-	        	//String filename = "test";//debug: all selections play the same testfile
+	        	//String filename = "Test";//debug: all selections play the same testfile
 	        	String filename = fileNames[position];//Identify the file name selected
 	        	app.sendData("play " + filename);
 	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
@@ -106,6 +106,7 @@ public class MainActivity extends Activity {
 		
 		//Current method of connection has user input IP of Base
 		ipInput = (EditText) findViewById(R.id.editText1);
+		
 		TextView.OnEditorActionListener ipListener = new TextView.OnEditorActionListener(){
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
@@ -117,39 +118,7 @@ public class MainActivity extends Activity {
 			}
 			
 		};
-		ipInput.setOnEditorActionListener(ipListener);
-		
-		
-		//debug code for server echo
-		/*
-		messageInput = (EditText) findViewById(R.id.editText2);
-		TextView.OnEditorActionListener messageListener = new TextView.OnEditorActionListener(){
-			@Override
-			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
-				   if (actionId == EditorInfo.IME_ACTION_SEND){// && event.getAction() == KeyEvent.ACTION_DOWN) { 
-					   String str = exampleView.getText().toString();
-					   app.sendData(str);
-					   exampleView.setText("");
-					   
-					   //System.out.println(str);
-				   }
-				   return true;
-				}
-		};
-		messageInput.setOnEditorActionListener(messageListener);
-		*/
-		
-		//StreamButton previously connected device to public sample stream, now connects to sample file on Base
-		/*streamButton.setOnClickListener(new OnClickListener(){
-			public void onClick(View v){
-				//String mediaURL = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";
-				String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/demo";
-				System.out.println(mediaURL);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
-                startActivity(intent);
-            	
-			}
-		});*/
+		   ipInput.setOnEditorActionListener(ipListener);
 		
 		refreshButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -179,7 +148,22 @@ public class MainActivity extends Activity {
 		text2.setText(s);
 	}
 	
-	//Receieve the list of files from Base, send them to the ArrayAdapter
+	public void parseResponse(String s){
+		String[] tokens = s.split(" ");
+		String responseType = tokens[0];
+		
+		if(responseType.equals("ready")){
+			String filename = tokens[1];
+			app.openStream(filename);
+			return;
+		}
+		
+		if(responseType.equals("file"))
+			;
+		
+	}
+	
+	//Receive the list of files from Base, send them to the ArrayAdapter
 	public void receiveData(String s){
 		//the first value should be an integer (only first value)
 		if (isInteger(s)){

@@ -29,7 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-//import android.view.View.OnClickListener;
+import android.view.View.OnClickListener;
 
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
@@ -49,6 +49,8 @@ public class MainActivity extends Activity {
 	
 	Button streamButton;//This button previously activated the sample stream offered by a public stie
 	//Will be safely removed from code once all relevant testing is discontinued
+	
+	Button refreshButton;//User can press this to refresh their list of files
 	
 	ListView myVidList;//ListView container for user's available video files. Will be populated with
 	//info from Base.
@@ -100,6 +102,7 @@ public class MainActivity extends Activity {
 		//text2 = (TextView) findViewById(R.id.textView4);
 		
 		//streamButton = (Button)findViewById(R.id.button1);
+	    refreshButton = (Button)findViewById(R.id.refreshButton);
 		
 		//Current method of connection has user input IP of Base
 		ipInput = (EditText) findViewById(R.id.editText1);
@@ -147,8 +150,13 @@ public class MainActivity extends Activity {
             	
 			}
 		});*/
+		
+		refreshButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				app.sendData("RequestFileList");
+	        }
+		});
 	}
-	
 	
 	
 	@Override

@@ -7,6 +7,7 @@
     <string name="serverDebug">Server Echo test</string>
     <string name="fileList">[User\'s available files here]</string>
     <string name="testStream">Open Test Stream</string>
+    <string name="refresh">Refresh File List</string>
     <color name="red">#FF0000</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_gray">#404040</color>

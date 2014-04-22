@@ -90,11 +90,11 @@ public class MainActivity extends Activity {
 	        public void onItemClick(AdapterView<?> a, View v, int position, long rowID) {
 	        	//String filename = "Test";//debug: all selections play the same testfile
 	        	String filename = fileNames[position];//Identify the file name selected
-	        	app.sendData("play " + filename);
-	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
-				System.out.println(mediaURL);//debug code, confirm correct formatting
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));//invoke native media player on new rtsp URL
-                startActivity(intent);
+	        	app.sendRequest("play", filename);
+	        	//String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
+				//System.out.println(mediaURL);//debug code, confirm correct formatting
+               // Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));//invoke native media player on new rtsp URL
+               // startActivity(intent);
 	        }
 	    });
 	    
@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
 		
 		refreshButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				app.sendData("RequestFileList");
+				app.sendRequest("RequestFileList", null);
 	        }
 		});
 	}
@@ -146,21 +146,6 @@ public class MainActivity extends Activity {
 	
 	public void output2(String s){
 		text2.setText(s);
-	}
-	
-	public void parseResponse(String s){
-		String[] tokens = s.split(" ");
-		String responseType = tokens[0];
-		
-		if(responseType.equals("ready")){
-			String filename = tokens[1];
-			app.openStream(filename);
-			return;
-		}
-		
-		if(responseType.equals("file"))
-			;
-		
 	}
 	
 	//Receive the list of files from Base, send them to the ArrayAdapter
@@ -207,9 +192,16 @@ public class MainActivity extends Activity {
 	}
 	
 	public void parseResponse(String s){
-		if (s.startsWith("FILE")){
-			receiveData(s.substring(4));
+		String[] tokens = s.split(" ");
+		if (tokens[0].equals("FILE")){
+			receiveData(tokens[1]);
+			return;
 		}
+		if(tokens[0].equals("READY")){
+			String filename = tokens[1];
+			app.openStream(filename);
+		}
+		
 		//if READY condition goes here
 	}
 	

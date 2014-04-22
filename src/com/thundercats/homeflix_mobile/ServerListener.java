@@ -47,7 +47,13 @@ public class ServerListener implements Runnable {
 		app.mainActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				app.mainActivity.receiveData(s);
+				/*
+				if (s.startsWith("FILE")){
+					app.mainActivity.receiveData(s.substring(4));
+				}
+				*/
+				app.mainActivity.parseResponse(s);
+				
 			}
 		});
 	}

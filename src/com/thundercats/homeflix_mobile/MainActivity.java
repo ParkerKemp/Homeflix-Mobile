@@ -206,6 +206,13 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 	
+	public void parseResponse(String s){
+		if (s.startsWith("FILE")){
+			receiveData(s.substring(4));
+		}
+		//if READY condition goes here
+	}
+	
 	@Override
 	protected void onPause(){
 		//Called when another activity comes into the foreground, but this one is still partially visible

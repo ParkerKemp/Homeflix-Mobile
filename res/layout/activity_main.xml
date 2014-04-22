@@ -17,8 +17,8 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/back"
         android:imeOptions="actionSend"
-        android:inputType="numberDecimal"
-        android:digits="0123456789."
+		android:inputType="numberDecimal"
+		android:digits="0123456789."
         android:hint="@string/IPprompt" />
 
     <ListView
@@ -29,5 +29,5 @@
     	android:layout_marginTop="10dp"
     	android:gravity="top"
     	android:background="@drawable/back" /> 
-
+    	
 </LinearLayout>

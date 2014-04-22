@@ -35,6 +35,8 @@ public class ClientConnect implements Runnable {
 		while(!establishConnection() && currentTime - markTime < 5000)
 			currentTime = System.currentTimeMillis();	//Block until establishConnection() returns true
 		System.out.println("ClientConnect thread done.");
+		//app.sendData("Major Tom to Ground Control");//confirmation message from Mobile to Base to be echoed
+		app.sendData("RequestFileList");//once connected to Base, ask for user's file list
 	}
 	
 	public boolean establishConnection(){

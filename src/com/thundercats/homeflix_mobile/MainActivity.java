@@ -29,13 +29,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.view.View.OnClickListener;
+//import android.view.View.OnClickListener;
 
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
 	Homeflix app;
 	TextView text;
 	TextView text2;
+	String[] fileNames;//names of playable files, sent from Base
+	int fileCount;//number of fileNames expected from Base
+	ArrayAdapter<String> adapter;
+	int j; //loop counter
 	
 	EditText ipInput;//Entry field for user to manually enter IP. Currently not the goal of the
 	//final design and will be altered/removed as project progresses
@@ -57,50 +61,37 @@ public class MainActivity extends Activity {
 		app = (Homeflix)getApplication();
 		app.mainActivity = this;
 		
-		//Splash screen partial implementation, incomplete
-		/*
-		setContentView(R.layout.splashscreen);
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                Intent mainIntent = new Intent(MainActivity.this,Menu.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
-            }
-        }, 10);
-       */
-		
 		//Connect to vidList in activity_main.xml
 		myVidList = (ListView) findViewById(R.id.vidList);
 		
-		//dummy code to demonstrate scrollable
-	    String[] values = new String[] { "My video.mp4", "Your video.mp4", "Bob's video.avi", 
-	    		"NSFW vid.flv", "How to do thing.avi", "How not to do thing.mp4",
-	    		"glow in the dark dog.mov", "Gameplay.flv", "test.avi",
-	    		"My Little Pony Ep1.avi", "My Little Pony Ep2.avi", "My Little Pony Ep6.avi",
-	    		"My Little Pony Ep10.avi", "Derpy Hooves.avi", "Parker eats a Taco.mp4",
-	    		"Colin Builds a birdhouse.avi", "Richie sleeps for 14 hrs.gif", "JenAcktivv iz dum.jpg"};
+		//dummy data to populate scroll list
+	    //final String[] fileNames = new String[] { "Test1.MOV", "Test2.MOV", "Test3.MOV"};
+		//final String[] fileNames = new String[] {};
 
 	    //Convert String[] to suitable format to feed to ArrayAdapter
+		/*
 	    ArrayList<String> list = new ArrayList<String>();
-	    for (int i = 0; i < values.length; ++i) {
-	      list.add(values[i]);
+	    for (int i = 0; i < fileNames.length; ++i) {
+	      list.add(fileNames[i]);
 	    }
+	    */
 	    
 	    //ArrayAdapter allow software memory to populate UI with values. adapter currently uses dummy data
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+	    //adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
 	    
 	    //Connect software list with user interface
-	    myVidList.setAdapter(adapter);
+	    //myVidList.setAdapter(adapter);
 		
+	    //Create interface effect: When file is tapped, play is initiated or resumed
 	    myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
 	        @Override
-	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
-	        	String filename = "Test";
-	        	//app.sendData("play " + filename);
-	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;
-				System.out.println(mediaURL);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
+	        public void onItemClick(AdapterView<?> a, View v, int position, long rowID) {
+	        	//String filename = "test";//debug: all selections play the same testfile
+	        	String filename = fileNames[position];//Identify the file name selected
+	        	app.sendData("play " + filename);
+	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
+				System.out.println(mediaURL);//debug code, confirm correct formatting
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));//invoke native media player on new rtsp URL
                 startActivity(intent);
 	        }
 	    });
@@ -120,11 +111,12 @@ public class MainActivity extends Activity {
 					   //System.out.println(exampleView.getText());//debug output
 				   }
 				   return true;
-				}
+			}
+			
 		};
 		ipInput.setOnEditorActionListener(ipListener);
 		
-
+		
 		//debug code for server echo
 		/*
 		messageInput = (EditText) findViewById(R.id.editText2);
@@ -179,6 +171,48 @@ public class MainActivity extends Activity {
 		text2.setText(s);
 	}
 	
+	//Receieve the list of files from Base, send them to the ArrayAdapter
+	public void receiveData(String s){
+		//the first value should be an integer (only first value)
+		if (isInteger(s)){
+			//This is the number of file names to be received
+			fileCount = Integer.parseInt(s);
+			fileNames = new String[fileCount];
+			j = 0;
+		}
+		else
+		{
+			//store each file name in the string
+			fileNames[j] = s;
+			//then iterate
+			j++;
+		}
+		
+		//Once file names are all received
+		if (j == fileCount){
+			//Convert String[] to suitable format to feed to ArrayAdapter
+		    ArrayList<String> list = new ArrayList<String>();
+		    for (int i = 0; i < fileNames.length; ++i) {
+		      list.add(fileNames[i]);
+		    }
+		    
+		    //then set adapter
+		    adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+		    
+		    //and pass to UI
+		    myVidList.setAdapter(adapter);
+		}
+	}
+	
+	public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
 	
 	@Override
 	protected void onPause(){

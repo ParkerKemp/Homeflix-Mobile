@@ -96,8 +96,8 @@ public class MainActivity extends Activity {
 	    myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
 	        @Override
 	        public void onItemClick(AdapterView<?> a, View v, int i, long l) {
-	        	String filename = "test";
-	        	app.sendData("play " + filename);
+	        	String filename = "Test";
+	        	//app.sendData("play " + filename);
 	        	String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;
 				System.out.println(mediaURL);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));

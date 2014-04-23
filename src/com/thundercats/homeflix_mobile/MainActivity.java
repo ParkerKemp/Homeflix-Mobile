@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 
 
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.VideoView;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.View.OnClickListener;
@@ -37,6 +39,7 @@ public class MainActivity extends Activity {
 	Homeflix app;
 	TextView text;
 	TextView text2;
+	VideoView videoView;
 	
 	//String[] fileNames;//names of playable files, sent from Base
 	//int fileCount;//number of fileNames expected from Base
@@ -72,6 +75,8 @@ public class MainActivity extends Activity {
 		
 		//Connect to vidList in activity_main.xml
 		Homeflix.myVidList = (ListView) findViewById(R.id.vidList);
+		
+		videoView = (VideoView)findViewById(R.id.videoView);
 		
 		//dummy data to populate scroll list
 	    //final String[] fileNames = new String[] { "Test1.MOV", "Test2.MOV", "Test3.MOV"};

@@ -194,11 +194,11 @@ public class MainActivity extends Activity {
 	public void parseResponse(String s){
 		String[] tokens = s.split(" ");
 		if (tokens[0].equals("FILE")){
-			receiveData(tokens[1]);
+			receiveData(s.substring(5));
 			return;
 		}
 		if(tokens[0].equals("READY")){
-			String filename = tokens[1];
+			String filename = s.substring(6);
 			app.openStream(filename);
 		}
 		

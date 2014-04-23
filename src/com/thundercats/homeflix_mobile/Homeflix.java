@@ -68,6 +68,7 @@ public class Homeflix extends Application{
 	
 	public void openStream(String filename){
 		//String filename = tokens[1];
+		filename = filename.replace(' ', '_');
     	String mediaURL = "rtsp://" + sockHandle.ip + ":2464/" + filename;
 		System.out.println(mediaURL);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));

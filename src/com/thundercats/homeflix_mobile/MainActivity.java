@@ -209,7 +209,7 @@ public class MainActivity extends Activity {
 			return;
 		}
 		if(tokens[0].equals("READY")){
-			String filename = tokens[1];
+			String filename = s.substring(6);
 			app.openStream(filename);
 		}
 	}

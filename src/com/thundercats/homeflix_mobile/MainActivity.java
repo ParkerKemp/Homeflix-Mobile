@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 	EditText messageInput;//This EditText was used with the server echo test and has been deprecated
 	//Will be safely removed from code once all relevant testing is discontinued
 	
-	Button streamButton;//This button previously activated the sample stream offered by a public stie
+	Button streamButton;//This button previously activated the sample stream offered by a public site
 	//Will be safely removed from code once all relevant testing is discontinued
 	
 	Button refreshButton;//User can press this to refresh their list of files
@@ -201,8 +201,6 @@ public class MainActivity extends Activity {
 			String filename = tokens[1];
 			app.openStream(filename);
 		}
-		
-		//if READY condition goes here
 	}
 	
 	@Override

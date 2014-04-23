@@ -14,6 +14,7 @@ import java.util.ArrayList;
 //import java.util.List;
 
 
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -36,10 +37,11 @@ public class MainActivity extends Activity {
 	Homeflix app;
 	TextView text;
 	TextView text2;
-	String[] fileNames;//names of playable files, sent from Base
-	int fileCount;//number of fileNames expected from Base
-	ArrayAdapter<String> adapter;
-	int j; //loop counter
+	
+	//String[] fileNames;//names of playable files, sent from Base
+	//int fileCount;//number of fileNames expected from Base
+	//ArrayAdapter<String> adapter;
+	//int j; //loop counter
 	
 	EditText ipInput;//Entry field for user to manually enter IP. Currently not the goal of the
 	//final design and will be altered/removed as project progresses
@@ -47,13 +49,15 @@ public class MainActivity extends Activity {
 	EditText messageInput;//This EditText was used with the server echo test and has been deprecated
 	//Will be safely removed from code once all relevant testing is discontinued
 	
-	Button streamButton;//This button previously activated the sample stream offered by a public stie
+	Button streamButton;//This button previously activated the sample stream offered by a public site
 	//Will be safely removed from code once all relevant testing is discontinued
 	
 	Button refreshButton;//User can press this to refresh their list of files
 	
-	ListView myVidList;//ListView container for user's available video files. Will be populated with
+	//ListView myVidList;//ListView container for user's available video files. Will be populated with
 	//info from Base.
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +67,11 @@ public class MainActivity extends Activity {
 		app = (Homeflix)getApplication();
 		app.mainActivity = this;
 		
+		//Homeflix.refreshRotate();
+		app.sendRequest("RequestFileList", null);//jerry-rigged fix for file list consistency
+		
 		//Connect to vidList in activity_main.xml
-		myVidList = (ListView) findViewById(R.id.vidList);
+		Homeflix.myVidList = (ListView) findViewById(R.id.vidList);
 		
 		//dummy data to populate scroll list
 	    //final String[] fileNames = new String[] { "Test1.MOV", "Test2.MOV", "Test3.MOV"};
@@ -85,11 +92,11 @@ public class MainActivity extends Activity {
 	    //myVidList.setAdapter(adapter);
 		
 	    //Create interface effect: When file is tapped, play is initiated or resumed
-	    myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
+	    Homeflix.myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
 	        @Override
 	        public void onItemClick(AdapterView<?> a, View v, int position, long rowID) {
 	        	//String filename = "Test";//debug: all selections play the same testfile
-	        	String filename = fileNames[position];//Identify the file name selected
+	        	String filename = Homeflix.fileNames[position];//Identify the file name selected
 	        	app.sendRequest("play", filename);
 	        	//String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
 				//System.out.println(mediaURL);//debug code, confirm correct formatting
@@ -149,6 +156,7 @@ public class MainActivity extends Activity {
 	}
 	
 	//Receive the list of files from Base, send them to the ArrayAdapter
+	/*
 	public void receiveData(String s){
 		//the first value should be an integer (only first value)
 		if (isInteger(s)){
@@ -180,7 +188,9 @@ public class MainActivity extends Activity {
 		    myVidList.setAdapter(adapter);
 		}
 	}
+	*/
 	
+	/*
 	public static boolean isInteger(String s) {
 	    try { 
 	        Integer.parseInt(s); 
@@ -190,19 +200,18 @@ public class MainActivity extends Activity {
 	    // only got here if we didn't return false
 	    return true;
 	}
+	*/
 	
 	public void parseResponse(String s){
 		String[] tokens = s.split(" ");
 		if (tokens[0].equals("FILE")){
-			receiveData(s.substring(5));
+			Homeflix.receiveData(s.substring(5));
 			return;
 		}
 		if(tokens[0].equals("READY")){
 			String filename = s.substring(6);
 			app.openStream(filename);
 		}
-		
-		//if READY condition goes here
 	}
 	
 	@Override

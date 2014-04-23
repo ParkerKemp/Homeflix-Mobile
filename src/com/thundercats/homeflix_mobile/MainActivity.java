@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
 			}
 			
 		};
-		   ipInput.setOnEditorActionListener(ipListener);
+		ipInput.setOnEditorActionListener(ipListener);
 		
 		refreshButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

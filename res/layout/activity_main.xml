@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/back"
         android:imeOptions="actionSend"
-		android:inputType="number"
+		android:inputType="phone"
 		android:digits="0123456789."
         android:hint="@string/IPprompt" />
 
@@ -40,10 +40,5 @@
      	android:layout_marginTop="10dp"
      	android:background="@drawable/back"
      	android:layout_gravity="right"/>
-    
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"/>
-    	
+
 </LinearLayout>

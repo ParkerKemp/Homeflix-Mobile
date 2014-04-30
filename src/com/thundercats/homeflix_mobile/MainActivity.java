@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
 		//Connect to vidList in activity_main.xml
 		Homeflix.myVidList = (ListView) findViewById(R.id.vidList);
 		
-		videoView = (VideoView)findViewById(R.id.videoView);
+		//videoView = (VideoView)findViewById(R.id.videoView);
 		
 		//dummy data to populate scroll list
 	    //final String[] fileNames = new String[] { "Test1.MOV", "Test2.MOV", "Test3.MOV"};
@@ -103,6 +103,7 @@ public class MainActivity extends Activity {
 	        	//String filename = "Test";//debug: all selections play the same testfile
 	        	String filename = Homeflix.fileNames[position];//Identify the file name selected
 	        	app.sendRequest("play", filename);
+	        	//app.openStream(filename);
 	        	//String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
 				//System.out.println(mediaURL);//debug code, confirm correct formatting
                // Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));//invoke native media player on new rtsp URL

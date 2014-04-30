@@ -71,9 +71,13 @@ public class Homeflix extends Application{
 		filename = filename.replace(' ', '_');
     	String mediaURL = "rtsp://" + sockHandle.ip + ":2464/" + filename;
 		System.out.println(mediaURL);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivity(intent);
+		Intent intent = new Intent(mainActivity, VideoStream.class);
+		intent.putExtra("com.thundercats.homeflix_mobile.streamurl", mediaURL);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 	
 	public boolean parseRequest(String line){

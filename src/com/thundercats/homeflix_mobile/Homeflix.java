@@ -28,7 +28,7 @@ public class Homeflix extends Application{
 	
 	
 	public static String[] fileNames;//names of playable files, sent from Base
-	public static String[] fileTimes;//play durations of files, from Base
+	//public static String[] fileTimes;//play durations of files, from Base
 	public static int fileCount;//number of fileNames expected from Base
 	public static ArrayAdapter<String> adapter;
 	public static int j; //loop counter
@@ -108,16 +108,19 @@ public class Homeflix extends Application{
 			//This is the number of file names to be received
 			fileCount = Integer.parseInt(s);
 			fileNames = new String[fileCount];
-			fileTimes = new String[fileCount];
+			//fileTimes = new String[fileCount];
 			j = 0;
 		}
 		else
 		{
+			/*
 			//use tokens to split file name and play duration
 			String[] tokens = s.split(";");
 			//store each file name in the string
 			fileNames[j] = tokens[0];
 			fileTimes[j] = tokens[1];
+			*/
+			fileNames[j] = s;
 			//then iterate
 			j++;
 		}
@@ -127,7 +130,8 @@ public class Homeflix extends Application{
 			//Convert String[] to suitable format to feed to ArrayAdapter
 		    ArrayList<String> list = new ArrayList<String>();
 		    for (int i = 0; i < fileNames.length; ++i) {
-		      list.add(fileNames[i] + " - " + fileTimes[i]);
+		      //list.add(fileNames[i] + " - " + fileTimes[i]);//WITH TIMES
+		      list.add(fileNames[i]);//WITHOUT TIMES
 		    }
 		    
 		    //then set adapter

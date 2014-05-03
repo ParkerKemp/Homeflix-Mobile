@@ -15,17 +15,18 @@ import java.util.ArrayList;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.VideoView;
 
 public class Homeflix extends Application{
 	
-	public static MainActivity mainActivity = null;
+	public MainActivity mainActivity = null;
 	//public volatile ClientConnect connectHandle;
 	public SocketHandle sockHandle = new SocketHandle();
 	
+	public static VideoView videoView;
 	
 	public static String[] fileNames;//names of playable files, sent from Base
 	//public static String[] fileTimes;//play durations of files, from Base
@@ -42,6 +43,10 @@ public class Homeflix extends Application{
 	public void onCreate(){
 		super.onCreate();
 		sockHandle.sock = new Socket();
+		
+		
+		
+		
 		//sockHandle.ip = Host;
 		
 		//Start thread that connects to server
@@ -75,6 +80,7 @@ public class Homeflix extends Application{
         //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //startActivity(intent);
+		
 		Intent intent = new Intent(mainActivity, VideoStream.class);
 		intent.putExtra("com.thundercats.homeflix_mobile.streamurl", mediaURL);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -106,7 +112,7 @@ public class Homeflix extends Application{
 		new Thread(new ClientConnect(this, sockHandle)).start();
 	}
 	
-	public static void receiveData(String s){
+	public void receiveData(String s){
 		//the first value should be an integer (only first value)
 		if (isInteger(s)){
 			//This is the number of file names to be received
@@ -139,7 +145,7 @@ public class Homeflix extends Application{
 		    }
 		    
 		    //then set adapter
-		    adapter = new ArrayAdapter<String> (mainActivity, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+		    adapter = new ArrayAdapter<String> (mainActivity, R.layout.list_layout, R.id.listTextView, list);
 		    
 		    //and pass to UI
 		    myVidList.setAdapter(adapter);

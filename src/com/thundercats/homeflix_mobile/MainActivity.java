@@ -9,22 +9,16 @@
 
 package com.thundercats.homeflix_mobile;
 
-import java.util.ArrayList;
 //import java.util.HashMap;
 //import java.util.List;
 
-
-
-
-import android.net.Uri;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
-//import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,7 +26,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends Activity {
 	SocketHandle sockHandle = new SocketHandle();
@@ -66,35 +60,22 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_main);
 		app = (Homeflix)getApplication();
 		app.mainActivity = this;
 		
-		//Homeflix.refreshRotate();
-		app.sendRequest("RequestFileList", null);//jerry-rigged fix for file list consistency
+		
 		
 		//Connect to vidList in activity_main.xml
 		Homeflix.myVidList = (ListView) findViewById(R.id.vidList);
-		
-		//videoView = (VideoView)findViewById(R.id.videoView);
-		
-		//dummy data to populate scroll list
-	    //final String[] fileNames = new String[] { "Test1.MOV", "Test2.MOV", "Test3.MOV"};
-		//final String[] fileNames = new String[] {};
+				
+		//Homeflix.refreshRotate();
+		app.sendRequest("RequestFileList", null);//jerry-rigged fix for file list consistency
 
-	    //Convert String[] to suitable format to feed to ArrayAdapter
-		/*
-	    ArrayList<String> list = new ArrayList<String>();
-	    for (int i = 0; i < fileNames.length; ++i) {
-	      list.add(fileNames[i]);
-	    }
-	    */
-	    
-	    //ArrayAdapter allow software memory to populate UI with values. adapter currently uses dummy data
-	    //adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
-	    
-	    //Connect software list with user interface
-	    //myVidList.setAdapter(adapter);
+		SharedPreferences sharedPref = getSharedPreferences("prefs", MODE_PRIVATE);
+		//SharedPreferences.Editor editor = sharedPref.edit();
+		String previousInput = sharedPref.getString("ipAddress", "");
 		
 	    //Create interface effect: When file is tapped, play is initiated or resumed
 	    Homeflix.myVidList.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -119,13 +100,21 @@ public class MainActivity extends Activity {
 		
 		//Current method of connection has user input IP of Base
 		ipInput = (EditText) findViewById(R.id.editText1);
+		ipInput.setText(previousInput);
 		
 		TextView.OnEditorActionListener ipListener = new TextView.OnEditorActionListener(){
 			@Override
 			public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
 				   if (actionId == EditorInfo.IME_ACTION_SEND){// && event.getAction() == KeyEvent.ACTION_DOWN) { 
+					   InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+					   mgr.hideSoftInputFromWindow(ipInput.getWindowToken(), 0);
+					   
 					   app.connectToIP(exampleView.getText().toString());
-					   //System.out.println(exampleView.getText());//debug output
+					   
+					   SharedPreferences sharedPref = getSharedPreferences("prefs", MODE_PRIVATE);
+					   SharedPreferences.Editor editor = sharedPref.edit();
+					   editor.putString("ipAddress", exampleView.getText().toString());
+					   editor.commit();
 				   }
 				   return true;
 			}
@@ -134,6 +123,7 @@ public class MainActivity extends Activity {
 		ipInput.setOnEditorActionListener(ipListener);
 		
 		refreshButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				app.sendRequest("RequestFileList", null);
 	        }
@@ -211,7 +201,7 @@ public class MainActivity extends Activity {
 	public void parseResponse(String s){
 		String[] tokens = s.split(" ");
 		if (tokens[0].equals("FILE")){
-			Homeflix.receiveData(s.substring(5));
+			app.receiveData(s.substring(5));
 			return;
 		}
 		if(tokens[0].equals("READY")){

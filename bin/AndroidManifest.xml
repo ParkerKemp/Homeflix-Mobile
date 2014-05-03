@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
     
    <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -14,12 +14,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        android:name="com.thundercats.homeflix_mobile.Homeflix">
+        android:name="com.thundercats.homeflix_mobile.Homeflix"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <!-- Splash screen -->
         <activity
             android:name="com.thundercats.homeflix_mobile.SplashScreen"
             android:label="@string/app_name" >
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         <!-- Video view -->
         <activity
             android:name="com.thundercats.homeflix_mobile.VideoStream"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:configChanges="orientation|screenSize" >
         </activity>
         <!-- Main activity -->
         <activity

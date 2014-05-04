@@ -24,7 +24,7 @@
         android:hint="@string/IPprompt" />
 
     <ListView
-    	android:id="@+id/vidList"
+    	android:id="@+id/vidInfo"
     	android:layout_width="fill_parent"
     	android:layout_height="0dp"
     	android:layout_weight="1"

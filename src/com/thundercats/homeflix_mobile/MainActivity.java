@@ -15,6 +15,7 @@ package com.thundercats.homeflix_mobile;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
@@ -68,7 +69,7 @@ public class MainActivity extends Activity {
 		
 		
 		//Connect to vidList in activity_main.xml
-		Homeflix.myVidList = (ListView) findViewById(R.id.vidList);
+		Homeflix.myVidList = (ListView) findViewById(R.id.vidInfo);
 				
 		//Homeflix.refreshRotate();
 		app.sendRequest("RequestFileList", null);//jerry-rigged fix for file list consistency
@@ -83,7 +84,11 @@ public class MainActivity extends Activity {
 	        public void onItemClick(AdapterView<?> a, View v, int position, long rowID) {
 	        	//String filename = "Test";//debug: all selections play the same testfile
 	        	String filename = Homeflix.fileNames[position];//Identify the file name selected
-	        	app.sendRequest("play", filename);
+	        	app.sendRequest("info", filename);
+	        	
+	        	//old code after this
+	        	//app.sendRequest("play", filename);
+	        	
 	        	//app.openStream(filename);
 	        	//String mediaURL = "rtsp://" + app.sockHandle.ip + ":2464/" + filename;//Send command to Base
 				//System.out.println(mediaURL);//debug code, confirm correct formatting
@@ -204,9 +209,15 @@ public class MainActivity extends Activity {
 			app.receiveData(s.substring(5));
 			return;
 		}
-		if(tokens[0].equals("READY")){
+		if (tokens[0].equals("READY")){
 			String filename = s.substring(6);
 			app.openStream(filename);
+		}
+		if (tokens[0].equals("INFO")){
+			Intent dataIntent = new Intent(app.mainActivity, DataActivity.class);
+        	dataIntent.putExtra("fileInfo", s.substring(5));
+        	dataIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		startActivity(dataIntent);
 		}
 	}
 	

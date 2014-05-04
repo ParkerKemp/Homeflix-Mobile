@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name="com.thundercats.homeflix_mobile.Homeflix"
+        android:name="com.thundercats.homeflix_mobile.HomeflixMobile"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <!-- Splash screen -->
         <activity

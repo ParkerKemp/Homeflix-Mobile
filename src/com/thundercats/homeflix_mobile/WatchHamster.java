@@ -9,53 +9,47 @@
 
 package com.thundercats.homeflix_mobile;
 
-//import android.app.Application;
+import java.io.IOException;
 
 public class WatchHamster implements Runnable {
 	
 	private SocketHandle sockHandle;
-	private Homeflix app;
+	private HomeflixMobile app;
 	
-	public WatchHamster(Homeflix app,SocketHandle s){
-		sockHandle = s;
+	public WatchHamster(HomeflixMobile app, SocketHandle sockHandle){
+		this.sockHandle = sockHandle;
 		this.app = app;
 	}
 	
 	@Override
 	public void run(){
-		while(true){
-			checkConnection();
-			readFromSocket();
+		
+		String line;
+		try{
+			while((line = sockHandle.bufferIn.readLine()) != null && !line.equals(".")){
+				System.out.println(line);
+				//output(line);
+				receiveData(line);
+				//reply with the same message, adding some text
+				// out.println("Server received: " + line);
+				
+			}
 		}
-	}
-	
-	public void checkConnection(){
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+		catch (IOException e){
+			System.out.println("IOException on socket : " + e);
 			e.printStackTrace();
 		}
-		if(sockHandle.sock.isConnected())
-			;//output("Connected to server!");
-		else
-			;//output("Connecting...");
 	}
 	
-	public void readFromSocket(){
-		if(!sockHandle.sock.isConnected())
-			return;
-	}
-	
-	public void output(final String s){
+	public void receiveData(final String s){
 		if(app.mainActivity == null)
 			return;
-		//All changes to the UI must be run on the thread that created it (the main thread, I assume)
 		app.mainActivity.runOnUiThread(new Runnable() {
-		     @Override
-		     public void run() {
-		    	 app.mainActivity.output(s);
-		    }
+			@Override
+			public void run() {
+				//send incoming data to MainActivity to be interpreted
+				app.mainActivity.parseResponse(s);
+			}
 		});
 	}
 }

@@ -1,25 +1,22 @@
 package com.thundercats.homeflix_mobile;
 
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 import android.widget.VideoView;
 import android.widget.MediaController;
 
 public class VideoStream extends Activity{
 	public static VideoView videoView;
-	Homeflix app;
+	HomeflixMobile app;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_video);
 		
-		app = (Homeflix)getApplication();
+		app = (HomeflixMobile)getApplication();
 		
 		String url = getIntent().getStringExtra("com.thundercats.homeflix_mobile.streamurl");
 		System.out.println("New activity got: " + url);

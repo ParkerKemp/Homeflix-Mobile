@@ -14,13 +14,11 @@ import java.util.ArrayList;
 
 import android.app.Application;
 import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.VideoView;
 
-public class Homeflix extends Application{
+public class HomeflixMobile extends Application{
 	
 	public MainActivity mainActivity = null;
 	//public volatile ClientConnect connectHandle;
@@ -29,7 +27,6 @@ public class Homeflix extends Application{
 	public static VideoView videoView;
 	
 	public static String[] fileNames;//names of playable files, sent from Base
-	//public static String[] fileTimes;//play durations of files, from Base
 	public static int fileCount;//number of fileNames expected from Base
 	public static ArrayAdapter<String> adapter;
 	public static int j; //loop counter
@@ -37,82 +34,51 @@ public class Homeflix extends Application{
 	public static ListView myVidList;//ListView container for user's available video files. Will be populated with
 	//info from Base.
 	
-	public String host;// = "192.168.1.102";	//Set this to your computer's local IP
-													//(temporary for debugging purposes)
 	@Override
 	public void onCreate(){
+		//Called when the application first starts
+		
 		super.onCreate();
 		sockHandle.sock = new Socket();
-		
-		
-		
-		
-		//sockHandle.ip = Host;
-		
-		//Start thread that connects to server
-		//new Thread(connectHandle = new ClientConnect(this, sockHandle)).start();
-		
-		//Start thread that handles general loop-ey stuff.
-		//If Homeflix were a game, this is the game loop
-		new Thread(new WatchHamster(this, sockHandle)).start();
 	}
 	
 	public void sendRequest(String requestType, String data){
-		//Write code to send a string across the socket
-		//try{
+		//Send a request (possibly with data) to Base
+
+		//If there is no connection, then return
 		if(sockHandle.sock == null)
 			return;
 		if(!sockHandle.sock.isConnected())
 			return;
 		
+		//Send the request as a single string
 		sockHandle.bufferOut.println(requestType + " " + data);
-		//parseRequest(s);
-		//} catch(IOException e){
-		
-		//}
 	}
 	
 	public void openStream(String filename){
-		//String filename = tokens[1];
+		//Start a new VideoStream activity and connect to the given stream via RTSP
+		
+		//Spaces are annoying; use underscores instead (the same is done on Base side)
 		filename = filename.replace(' ', '_');
     	String mediaURL = "rtsp://" + sockHandle.ip + ":2464/" + filename;
-		System.out.println(mediaURL);
-        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //startActivity(intent);
 		
+    	//Initialize the intent, attach the URL string to it
 		Intent intent = new Intent(mainActivity, VideoStream.class);
 		intent.putExtra("com.thundercats.homeflix_mobile.streamurl", mediaURL);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 	}
 	
-	public boolean parseRequest(String line){
-    	//Return true if a command was processed, or false if it's just arbitrary text data
-    	
-    	String[] tokens = line.split(" ");
-    	String command = tokens[0];
-    	
-    	if(command.equalsIgnoreCase("play") && tokens.length > 1){
-    		String filename = tokens[1];
-        	String mediaURL = "rtsp://" + sockHandle.ip + ":2464/" + filename;
-			System.out.println(mediaURL);
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaURL));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-    		
-    		return true;
-    	}
-    	
-    	return false;
-    }
-	
 	public void connectToIP(String ip){
+		//Start a new thread trying to connect to the given IP address
+		
 		sockHandle.ip = ip;
 		new Thread(new ClientConnect(this, sockHandle)).start();
 	}
 	
 	public void receiveData(String s){
+		//Receive the next piece of a list of filenames
+		
 		//the first value should be an integer (only first value)
 		if (isInteger(s)){
 			//This is the number of file names to be received
@@ -121,15 +87,7 @@ public class Homeflix extends Application{
 			//fileTimes = new String[fileCount];
 			j = 0;
 		}
-		else
-		{
-			/*
-			//use tokens to split file name and play duration
-			String[] tokens = s.split(";");
-			//store each file name in the string
-			fileNames[j] = tokens[0];
-			fileTimes[j] = tokens[1];
-			*/
+		else{
 			fileNames[j] = s;
 			//then iterate
 			j++;
@@ -140,8 +98,7 @@ public class Homeflix extends Application{
 			//Convert String[] to suitable format to feed to ArrayAdapter
 		    ArrayList<String> list = new ArrayList<String>();
 		    for (int i = 0; i < fileNames.length; ++i) {
-		      //list.add(fileNames[i] + " - " + fileTimes[i]);//WITH TIMES
-		      list.add(fileNames[i]);//WITHOUT TIMES
+		      list.add(fileNames[i]);
 		    }
 		    
 		    //then set adapter
@@ -152,17 +109,9 @@ public class Homeflix extends Application{
 		}
 	}
 	
-	/*
-	public static void refreshRotate(){
-		if (adapter != null){
-		    myVidList.setAdapter(adapter);
-			//System.out.println("Test2");
-		}
-		//System.out.println("Test1");
-	}
-	*/
-	
 	public static boolean isInteger(String s) {
+		//Determine if the string can be interpreted as an int
+		
 	    try { 
 	        Integer.parseInt(s); 
 	    } catch(NumberFormatException e) { 

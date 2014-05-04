@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 public class DataActivity extends Activity{
 	ListView vidInfo;
-	String[] myVidInfo = new String[3];
+	String[] myVidInfo = new String[2];
 	ArrayAdapter<String> adapter;
 	Button playButton;
 	String filename;
@@ -45,11 +45,10 @@ public class DataActivity extends Activity{
 		String[] tokens = fileInfo.split(";");
 	    
 		filename = tokens[0];
-		myTextView.setText("Info for " + filename);
+		myTextView.setText(filename);
 		
 	    myVidInfo[0] = "Play Time: " + tokens[1];
-	    myVidInfo[1] = "Video Codec: " + tokens[2];
-	    myVidInfo[2] = "Audio Codec: " + tokens[3];
+	    myVidInfo[1] = "Codecs: " + tokens[2] + "/" + tokens[3];
 	    
 	    //construct array into list
 	    for (int i = 0; i < myVidInfo.length; ++i) {

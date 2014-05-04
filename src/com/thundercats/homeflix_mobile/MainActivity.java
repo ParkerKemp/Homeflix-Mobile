@@ -11,6 +11,7 @@ package com.thundercats.homeflix_mobile;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
@@ -45,7 +46,8 @@ public class MainActivity extends Activity {
 		app.mainActivity = this;
 		
 		//Connect to vidList in activity_main.xml
-		HomeflixMobile.myVidList = (ListView) findViewById(R.id.vidList);
+		HomeflixMobile.myVidList = (ListView) findViewById(R.id.vidInfo);
+
 				
 		//Homeflix.refreshRotate();
 		app.sendRequest("RequestFileList", null);//jerry-rigged fix for file list consistency
@@ -60,7 +62,7 @@ public class MainActivity extends Activity {
 	        	String filename = HomeflixMobile.fileNames[position];//Identify the file name selected
 	        	
 	        	//Send a request for Base to start the stream
-	        	app.sendRequest("play", filename);
+	        	app.sendRequest("info", filename);
 	        }
 	    });
 	    
@@ -119,6 +121,12 @@ public class MainActivity extends Activity {
 			//A READY message indicates that a requested stream is ready on Base side
 			String filename = s.substring(6);
 			app.openStream(filename);
+		}
+		if (tokens[0].equals("INFO")){
+			Intent dataIntent = new Intent(app.mainActivity, DataActivity.class);
+        	dataIntent.putExtra("fileInfo", s.substring(5));
+        	dataIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		startActivity(dataIntent);
 		}
 	}
 	
